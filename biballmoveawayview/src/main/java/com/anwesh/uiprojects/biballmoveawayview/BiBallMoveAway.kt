@@ -172,4 +172,28 @@ class BiBallMoveAway(ctx : Context) : View(ctx) {
             return this
         }
     }
+
+    data class BiBallMoveAway(var i : Int) {
+
+        private val root : BBMANode = BBMANode(0)
+        private var curr : BBMANode = root
+        private var dir : Int = 1
+
+        fun draw(canvas : Canvas, paint : Paint) {
+            root.draw(canvas, paint)
+        }
+
+        fun update(cb : (Int, Float) -> Unit) {
+            curr.update {i, scl ->
+                curr = curr.getNext(dir) {
+                    dir *= -1
+                }
+                cb(i, scl)
+            }
+        }
+
+        fun startUpdating(cb : () -> Unit) {
+            curr.startUpdating(cb)
+        }
+    }
 }
