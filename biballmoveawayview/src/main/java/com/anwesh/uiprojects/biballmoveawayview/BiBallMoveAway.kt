@@ -64,7 +64,7 @@ fun Canvas.drawBBMANode(i : Int, scale : Float, paint : Paint) {
     }
 }
 
-class BiBallMoveAway(ctx : Context) : View(ctx) {
+class BiBallMoveAwayView(ctx : Context) : View(ctx) {
 
     private val paint : Paint = Paint(Paint.ANTI_ALIAS_FLAG)
 
@@ -194,6 +194,28 @@ class BiBallMoveAway(ctx : Context) : View(ctx) {
 
         fun startUpdating(cb : () -> Unit) {
             curr.startUpdating(cb)
+        }
+    }
+
+    data class Renderer(var view : BiBallMoveAwayView) {
+
+        private val bbma : BiBallMoveAway = BiBallMoveAway(0)
+        private val animator : Animator = Animator(view)
+
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(backColor)
+            bbma.draw(canvas, paint)
+            animator.animate {
+                bbma.update {i, scl ->
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            bbma.startUpdating {
+                animator.stop()
+            }
         }
     }
 }
