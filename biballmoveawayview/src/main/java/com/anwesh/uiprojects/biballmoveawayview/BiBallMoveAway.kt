@@ -224,7 +224,7 @@ class BiBallMoveAwayView(ctx : Context) : View(ctx) {
         fun create(activity : Activity) : BiBallMoveAwayView {
             val view : BiBallMoveAwayView = BiBallMoveAwayView(activity)
             activity.setContentView(view)
-            return view 
+            return view
         }
     }
 }
