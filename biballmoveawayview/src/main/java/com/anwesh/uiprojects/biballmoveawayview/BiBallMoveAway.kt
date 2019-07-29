@@ -219,4 +219,12 @@ class BiBallMoveAwayView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    companion object {
+        fun create(activity : Activity) : BiBallMoveAwayView {
+            val view : BiBallMoveAwayView = BiBallMoveAwayView(activity)
+            activity.setContentView(view)
+            return view 
+        }
+    }
 }
