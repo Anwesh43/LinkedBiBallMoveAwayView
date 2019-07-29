@@ -38,10 +38,10 @@ fun Canvas.drawArcAndMovingBall(i : Int, sc : Float, startDeg : Float, deg : Flo
     save()
     rotate(deg)
     paint.style = Paint.Style.FILL
-    drawCircle(size + w * sc.divideScale(i, balls), 0f, r, paint)
+    drawCircle(size + (w + r) * sc.divideScale(i, balls), 0f, r, paint)
     restore()
     paint.style = Paint.Style.STROKE
-    drawArc(RectF(-size, -size, size, size), startDeg, deg, false, paint)
+    drawArc(RectF(-size, -size, size, size), startDeg, deg - startDeg, false, paint)
 }
 
 fun Canvas.drawBBMANode(i : Int, scale : Float, paint : Paint) {
@@ -56,12 +56,15 @@ fun Canvas.drawBBMANode(i : Int, scale : Float, paint : Paint) {
     paint.strokeCap = Paint.Cap.ROUND
     var start : Float = 0f
     var deg : Float = 0f
+    save()
+    translate(w / 2, gap * (i + 1))
     for (j in 0..(balls - 1)) {
         val sc1i : Float = sc1.divideScale(j, balls)
-        deg = 180f * sc1i
+        deg += 180f * sc1i
         drawArcAndMovingBall(j, sc2, start, deg, size, (w / 2 - size), paint)
         start = 180F * Math.floor(sc1i.toDouble()).toFloat()
     }
+    restore()
 }
 
 class BiBallMoveAwayView(ctx : Context) : View(ctx) {
@@ -215,7 +218,7 @@ class BiBallMoveAwayView(ctx : Context) : View(ctx) {
 
         fun handleTap() {
             bbma.startUpdating {
-                animator.stop()
+                animator.start()
             }
         }
     }
